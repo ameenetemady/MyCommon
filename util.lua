@@ -152,26 +152,30 @@ do
     return  math.abs(cephes.stdtri(nDF, (1 - dConfidence))) 
   end
 
-  function myUtil.getCsvStringFrom2dTensor(teData)
+  function myUtil.getCsvStringFrom2dTensor(teData, separator)
     local strRes = ""
+    separator = separator or ","
+    local strFormat = "%.7f"
 
     for r=1, teData:size(1) do
       for c=1, teData:size(2) - 1 do
-        strRes = strRes .. teData[r][c] .. "," 
+        strRes = strRes .. string.format(strFormat, teData[r][c]) .. separator 
       end
-        strRes = strRes .. teData[r][teData:size(2)] .. "\n"
+        strRes = strRes .. string.format(strFormat, teData[r][teData:size(2)]) .. "\n"
     end
 
     return strRes
   end
 
-  function myUtil.getCsvStringFrom1dTensor(teX)
+  function myUtil.getCsvStringFrom1dTensor(teX, separator)
     local strRes = ""
+    separator = separator or ","
+    local strFormat = "%.7f"
 
     for c=1, teX:size(1)-1 do
-     strRes = strRes .. teX[c] .. ","
+     strRes = strRes .. string.format(strFormat, teX[c]) .. ","
     end
-    strRes = strRes .. teX[teX:size(1)]
+    strRes = strRes .. string.format(strFormat, teX[teX:size(1)])
 
     return strRes
   end  

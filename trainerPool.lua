@@ -33,7 +33,7 @@ do
 
 function trainerPool.getDefaultTrainParams(nSize)
   return  {   batchSize =  math.floor(nSize),
-                            maxIteration = 200,
+                            maxIteration = 10,
                             coefL1 = 0.0,
                             coefL2 = 0.0,
                             strOptimMethod = "CG",
@@ -82,6 +82,8 @@ end
       end
 
       local fuEval = function(x)
+--        print("-----------")
+--        print("x:" .. tostring(x))
 
         -- just in case:
         collectgarbage()
@@ -120,6 +122,8 @@ end
 --        io.write(f .. ",")
 --        io.flush()
 
+--        print("gp:" .. tostring(gradParameters))
+--        print("f:" .. f)
         return f, gradParameters
       end --fuEval
 
