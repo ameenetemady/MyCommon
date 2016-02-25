@@ -195,6 +195,15 @@ do
     return copy
   end
 
+  function myUtil.getFilledCurve_identity(min, max, err)
+    local x = torch.linspace(min, max)
+    local yy = x:clone() 
+    yy = torch.cat(yy, x + err, 2)
+    yy = torch.cat(yy, x - err, 2)
+
+    return yy
+  end
+
   return myUtil
 
 end
