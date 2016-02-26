@@ -170,7 +170,7 @@ end
 
     end
 
-    print("err: " .. err)
+--    print("err: " .. err)
 
   end
 
@@ -180,7 +180,6 @@ end
     
     local taTrainParams = trainerPool.getDefaultTrainParams(taData:size())
     trainerPool.train_MiniBatch_Outer(taData, mlp, criterion, taTrainParams)
---print(taData)
   end
 
   function trainerPool.test(taData, mlp)
@@ -189,6 +188,16 @@ end
     local err = criterion:forward(tePred, taData[2])
 
     return err
+  end
+
+  function trainerPool.getFractionOut(taData, mlp, errThreshold)
+    local tePred = mlp:forward(taData[1])
+
+    local teErr = (tePred - taData[2]):abs()
+    local teErrSignificant = torch.ge(teErr, errThreshold)
+
+    return teErrSignificant:sum()/tePred:nElement()
+
   end
 
   return trainerPool
