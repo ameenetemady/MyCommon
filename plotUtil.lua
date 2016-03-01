@@ -21,12 +21,13 @@ do
 
   end
 
-  function plotUtil.hist(taTeData, nBins, min, max)
---    gnuplot.hist(teData, 10)
-  
-      nBins = nBins or 20
-      min = min or 0
-      max = max or 0.25
+  function plotUtil.hist(taTeData, taParam)
+      taParam = taParam or {}
+
+      nBins = taParam.nBins or 20
+      min = taParam.min or 0
+      max = taParam.max or 0.25
+
       local teX = torch.linspace(min, max, nBins)
 
       local taPlot = {}
@@ -37,9 +38,21 @@ do
         table.insert(taPlot, taCurr)
       end
 
-      gnuplot.plot(taPlot)
 
-     
+    gnuplot.closeall()
+    gnuplot.figure(2)
+    if taParam.strFigureFilename ~= nil then
+--      gnuplot.raw('set terminal pdf')
+      gnuplot.raw('set output "' .. taParam.strFigureFilename .. '"')
+    end
+
+    gnuplot.title(taParam.title)
+    gnuplot.plot(taPlot)
+
+    gnuplot.closeall()
+--    gnuplot.plotflush()
+
+
   end
 
   return plotUtil
