@@ -206,4 +206,16 @@ do
 
   return myUtil
 
+  function myUtil.getNumLines(strFilename)
+    local file = assert(io.open(strFilename, "r"))
+    local nLines = 0
+    for _ in file:lines() do
+      nLines = nLines + 1
+    end
+
+    file:close()
+
+    return nLines
+  end
+
 end
