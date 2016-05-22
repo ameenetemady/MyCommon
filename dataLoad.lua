@@ -4,9 +4,21 @@ local myUtil = myUtil or require('./util.lua')
 local dataLoad = {}
 
 do
+  function dataLoad.pri_getSortedKeysTable(taInput)
+    local taRes = {}
+    for k, v in pairs(taInput) do
+      table.insert(taRes, k)
+    end
+
+    table.sort(taRes)
+
+    return taRes
+  end
+
   function dataLoad.pri_loadTableOfTensorsFromTsv_Header(taParam)
     local strFilename = taParam.strFilename
     local nCols = taParam.nCols
+    local taGenes = dataLoad.pri_getSortedKeysTable(taParam.taCols)
 
     local taLoadParams = {header=false, columns=taParam.taCols, separator="\t"}
     local f = csv.open(strFilename, taLoadParams)
@@ -17,7 +29,7 @@ do
         local teRow = torch.Tensor(nCols)
         local nColId = 0
 
-        for strGeneName, v in pairs(taParam.taCols) do
+        for k, strGeneName in pairs(taGenes) do
           if fields[strGeneName] ~= nil and string.len(fields[strGeneName]) > 0  then
             nColId = nColId + 1
             teRow[nColId] = fields[strGeneName]
