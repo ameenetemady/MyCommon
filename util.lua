@@ -204,8 +204,6 @@ do
     return yy
   end
 
-  return myUtil
-
   function myUtil.getNumLines(strFilename)
     local file = assert(io.open(strFilename, "r"))
     local nLines = 0
@@ -217,5 +215,17 @@ do
 
     return nLines
   end
+
+  function myUtil.isInTaValues(strGene, taTable)
+    for k, v in pairs(taTable) do
+      if strGene == v then
+        return true
+      end
+    end
+
+    return false
+  end
+  
+  return myUtil
 
 end

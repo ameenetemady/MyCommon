@@ -1,10 +1,40 @@
-local csv = require("csv")
-local myUtil = require('./util.lua')
+local csv = csv or require("csv")
+local myUtil = myUtil or require('./util.lua')
 
 local dataLoad = {}
 
 do
-  function dataLoad.loadTensorFromTsv(taParam)
+  function dataLoad.pri_loadTableOfTensorsFromTsv_Header(taParam)
+    local strFilename = taParam.strFilename
+    local nCols = taParam.nCols
+
+    local taLoadParams = {header=false, columns=taParam.taCols, separator="\t"}
+    local f = csv.open(strFilename, taLoadParams)
+
+    local taData= {}
+    for fields in f:lines() do
+      if type(fields) == "table" and next(fields) ~= nil then
+        local teRow = torch.Tensor(nCols)
+        local nColId = 0
+
+        for strGeneName, v in pairs(taParam.taCols) do
+          if fields[strGeneName] ~= nil and string.len(fields[strGeneName]) > 0  then
+            nColId = nColId + 1
+            teRow[nColId] = fields[strGeneName]
+          end
+        end
+
+        if nColId > 0 then
+          table.insert(taData, teRow:clone())
+        end
+
+      end
+    end
+
+    return taData
+  end
+
+  function dataLoad.pri_loadTableOfTensorsFromTsv_noHeader(taParam)
     local strFilename = taParam.strFilename
     local nCols = taParam.nCols
 
@@ -21,9 +51,22 @@ do
       table.insert(taData, teRow)
     end
 
-    local teData = myUtil.getTensorFromTableOfTensors(taData)
+    return taData
+  end
 
-    return teData
+  function dataLoad.loadTensorFromTsv(taParam)
+    local isHeader = taParam.isHeader or false
+
+    local taData = nil
+
+    if isHeader then
+      taData = dataLoad.pri_loadTableOfTensorsFromTsv_Header(taParam)
+    else
+      taData = dataLoad.pri_loadTableOfTensorsFromTsv_noHeader(taParam)
+    end
+
+
+    return myUtil.getTensorFromTableOfTensors(taData)
   end
 
   function dataLoad.pri_getMasked(teData, teMask)
