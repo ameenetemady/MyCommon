@@ -15,12 +15,35 @@ do
     return taRes
   end
 
+  function dataLoad.getHeader(strFilename)
+    local taLoadParams = {header=false, separator="\t"}
+    local f = csv.open(strFilename, taLoadParams)
+    local fields = f:lines()()
+    local nGenes =  table.getn(fields)
+
+    local taGenes = {}
+    for i=1, nGenes do
+      table.insert(taGenes, fields[i])
+    end
+
+    return taGenes
+  end
+
+  function dataLoad.pri_getTableFromArray(taInput)
+    local taRes = {}
+    for k, v in pairs(taInput) do
+      taRes[v]=true
+    end
+
+    return taRes
+  end
+
   function dataLoad.pri_loadTableOfTensorsFromTsv_Header(taParam)
     local strFilename = taParam.strFilename
     local nCols = taParam.nCols
-    local taGenes = dataLoad.pri_getSortedKeysTable(taParam.taCols)
+    local taColsTable = dataLoad.pri_getTableFromArray(taParam.taCols)
 
-    local taLoadParams = {header=false, columns=taParam.taCols, separator="\t"}
+    local taLoadParams = {header=false, columns=taColsTable, separator="\t"}
     local f = csv.open(strFilename, taLoadParams)
 
     local taData= {}
@@ -29,7 +52,7 @@ do
         local teRow = torch.Tensor(nCols)
         local nColId = 0
 
-        for k, strGeneName in pairs(taGenes) do
+        for k, strGeneName in pairs(taParam.taCols) do
           if fields[strGeneName] ~= nil and string.len(fields[strGeneName]) > 0  then
             nColId = nColId + 1
             teRow[nColId] = fields[strGeneName]
@@ -76,7 +99,6 @@ do
     else
       taData = dataLoad.pri_loadTableOfTensorsFromTsv_noHeader(taParam)
     end
-
 
     return myUtil.getTensorFromTableOfTensors(taData)
   end
