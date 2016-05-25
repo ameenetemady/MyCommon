@@ -6,7 +6,7 @@ do
   function archFactory.mlp(taParam)
     local mlp = nn.Sequential()
 
-    if nHiddenLayers ~= 0 then
+    if taParam.nHiddenLayers == 0 then
       mlp:add(nn.Linear(taParam.nInputs, taParam.nOutputs))
       mlp:add(nn.Sigmoid())
       return mlp
