@@ -225,6 +225,15 @@ do
 
     return false
   end
+
+  function myUtil.log(strMessage, isNewLine, isLog)
+    if not isLog then
+      return
+    end
+
+    io.write(strMessage .. (isNewLine and "\n" or ""))
+  end
+
   
   return myUtil
 
