@@ -234,6 +234,10 @@ do
     io.write(strMessage .. (isNewLine and "\n" or ""))
   end
 
+  function myUtil.isNan(input)
+    return input ~= input
+  end
+
   
   return myUtil
 
