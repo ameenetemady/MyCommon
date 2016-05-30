@@ -238,6 +238,12 @@ do
     return input ~= input
   end
 
+  function myUtil.getMNetClone(mNet)
+    local mNetClone = mNet:clone()
+    return mNetClone
+
+  end
+
   
   return myUtil
 

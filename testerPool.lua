@@ -12,4 +12,5 @@ do
     return err
   end
 
+  return testerPool
 end
