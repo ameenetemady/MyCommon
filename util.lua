@@ -244,6 +244,16 @@ do
 
   end
 
+  function myUtil.findIndexInArray(taInput, value)
+    for k, v in taInput do
+      if value == v then
+        return k
+      end
+    end
+
+    return nil
+  end
+
   
   return myUtil
 
