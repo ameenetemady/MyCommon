@@ -245,7 +245,7 @@ do
   end
 
   function myUtil.findIndexInArray(taInput, value)
-    for k, v in taInput do
+    for k, v in pairs(taInput) do
       if value == v then
         return k
       end
