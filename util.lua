@@ -254,6 +254,20 @@ do
     return nil
   end
 
+  function myUtil.updateTable(taInput, taUpdate)
+    for k, v in pairs(taUpdate) do
+      taInput[k] = v
+    end
+  end
+
+  function myUtil.getBoolFromStr(strInput)
+    if strInput == nil then
+      return false
+    end
+
+    return (string.lower(strInput) == "true")
+  end
+
   
   return myUtil
 
