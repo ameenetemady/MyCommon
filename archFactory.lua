@@ -20,7 +20,6 @@ do
       end
 
       mlp:add(nn.Linear(taParam.nNodesPerLayer, taParam.nOutputs))
-      mlp:add(nn.Sigmoid())
 
       return mlp
     end

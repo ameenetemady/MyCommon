@@ -167,6 +167,27 @@ do
     return strRes
   end
 
+  function myUtil.saveTensorAndHeaderToCsvFile(teData, taHeader, strFilename)
+    local fHandle = assert(io.open(strFilename, "w+"))
+    local strHeader = table.concat(taHeader, "\t")
+    fHandle:write(strHeader .. "\n")
+    myUtil.saveCsvStringFrom2dTensorToFile(teData, "\t", fHandle)
+    fHandle:close()
+  end
+
+  function myUtil.saveCsvStringFrom2dTensorToFile(teData, separator, fHandle)
+    separator = separator or ","
+    local strFormat = "%.7f"
+
+    for r=1, teData:size(1) do
+      for c=1, teData:size(2) - 1 do
+        fHandle:write( string.format(strFormat, teData[r][c]) .. separator )
+      end
+        fHandle:write( string.format(strFormat, teData[r][teData:size(2)]) .. "\n")
+    end
+
+  end
+
   function myUtil.getCsvStringFrom1dTensor(teX, separator)
     local strRes = ""
     separator = separator or ","
