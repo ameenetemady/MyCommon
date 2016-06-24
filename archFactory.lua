@@ -8,13 +8,12 @@ do
 
     if taParam.nHiddenLayers == 0 then
       mlp:add(nn.Linear(taParam.nInputs, taParam.nOutputs))
-      mlp:add(nn.Sigmoid())
       return mlp
     else
       mlp:add(nn.Linear(taParam.nInputs, taParam.nNodesPerLayer))
       mlp:add(nn.Sigmoid())
 
-      for i=1, taParam.nHiddenLayers do
+      for i=1, (taParam.nHiddenLayers-1) do
         mlp:add(nn.Linear(taParam.nNodesPerLayer, taParam.nNodesPerLayer))
         mlp:add(nn.Sigmoid())
       end
