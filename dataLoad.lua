@@ -103,6 +103,35 @@ do
     return myUtil.getTensorFromTableOfTensors(taData)
   end
 
+  function dataLoad.getMaskedSelect(teInput, teMaskDim1)
+    local nRows = teInput:size(1)
+
+    -- expand tensor for maskedCopy
+    local teMaskSize = teInput:size():fill(1)
+    teMaskSize[1] = nRows
+    local teMask = torch.ByteTensor(teMaskSize)
+
+    local teInputMasked = nil
+    if teInput:dim() == 2 then
+      teMask:select(2, 1):copy(teMaskDim1)
+      teMask = teMask:expandAs(teInput)
+      teInputMasked = teInput:maskedSelect(teMask)
+      teInputMasked:resize(teMaskDim1:sum(), teInput:size(2))
+
+    elseif teInput:dim(2) == 3 then
+      teMask:select(3, 1):select(2, 1):copy(teMaskDim1)
+      teMask = teMask:expandAs(teInput)
+      teInputMasked = teInput:maskedSelect(teMask)
+      teInputMasked:resize(teMaskDim1:sum(), teInput:size(2), teInput:size(3))
+
+    else
+      error(string.format("nDim = %d not supported!", teInput:dim()))
+    end
+
+    return teInputMasked
+  end
+
+
   function dataLoad.pri_getMasked(teData, teMask)
     local nSize = teData:size(1)
     local nDataWidth = teData:size(2)
