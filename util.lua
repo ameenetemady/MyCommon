@@ -253,6 +253,7 @@ do
     end
 
     io.write(strMessage .. (isNewLine and "\n" or ""))
+    io.flush()
   end
 
   function myUtil.isNan(input)

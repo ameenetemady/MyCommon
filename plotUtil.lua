@@ -23,11 +23,11 @@ do
 
     if teX2 == nil then
       gnuplot.raw('set style circle radius graph 0.005')
-      gnuplot.plot({'Target', teX:squeeze(), teY:squeeze(), 'circles fs transparent solid noborder '})
+      gnuplot.plot({'Target', teX:squeeze(), teY:squeeze(), 'with circles fs transparent solid noborder '})
     else
       gnuplot.raw('set style circle radius graph 0.015')
-      gnuplot.plot({'Target', teX:squeeze(), teY:squeeze(), 'circles fs transparent solid 0.5 lc rgb "blue"'},
-                   {'Pred', teX2:squeeze(), teY2:squeeze(), 'points pt 2 ps 0.4 lc rgb "red"'})
+      gnuplot.plot({'Target', teX:squeeze(), teY:squeeze(), 'with circles fs transparent solid 0.5 lc rgb "blue"'},
+                   {'Pred', teX2:squeeze(), teY2:squeeze(), 'with points pt 2 ps 0.4 lc rgb "red"'})
 
     end
     gnuplot.closeall()
