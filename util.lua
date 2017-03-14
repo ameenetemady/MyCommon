@@ -277,6 +277,10 @@ do
   end
 
   function myUtil.updateTable(taInput, taUpdate)
+		if taUpdate == nil then
+			return
+		end
+
     for k, v in pairs(taUpdate) do
       taInput[k] = v
     end
