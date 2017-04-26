@@ -15,6 +15,21 @@ do
     return taRes
   end
 
+	-- Input: csv file name
+	-- Output: table containing key, value pairs as in the .csv file
+	function dataLoad.loadTaSetting(strFilename)
+		local taSetting = {}
+    local taLoadParams = {header=false, separator=","}
+    local f = csv.open(strFilename, taLoadParams)
+    for fields in f:lines() do
+			local strKey = fields[1]
+			local strValue = fields[2]
+			taSetting[strKey] = strValue
+		end
+
+		return taSetting
+	end
+
   function dataLoad.getHeader(strFilename)
     local taLoadParams = {header=false, separator="\t"}
     local f = csv.open(strFilename, taLoadParams)

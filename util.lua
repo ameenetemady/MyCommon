@@ -276,13 +276,23 @@ do
     return nil
   end
 
-  function myUtil.updateTable(taInput, taUpdate)
+  function myUtil.updateTable(taInput, taUpdate, isCopyTensor)
 		if taUpdate == nil then
 			return
 		end
 
+		if taInput == nil then
+			taInput = {}
+		end
+
     for k, v in pairs(taUpdate) do
-      taInput[k] = v
+
+			if isCopyTensor then
+      	taInput[k]:copy(v)
+			else
+      	taInput[k] = v
+			end
+
     end
   end
 

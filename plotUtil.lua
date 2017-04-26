@@ -50,7 +50,13 @@ do
     gnuplot.title(taParam.title)
 
     gnuplot.scatter3(teX:squeeze(), teY:squeeze(), teZ:squeeze())
-    gnuplot.closeall()
+
+    if taParam.strFigureFilename == nil then -- wait for user
+			print("press Enter")
+			io.read("*line")
+		end
+
+ 	  gnuplot.closeall()
 
   end
 
