@@ -6,6 +6,9 @@ function TimeTracker:__init()
 	self.taBlocks = { start = 0} -- stores duration of each block
 	self.keyPrev = "start"
 
+end
+
+function TimeTracker:start()
 	sys.tic()
 	self.dPrev = sys.toc()
 end
@@ -22,5 +25,18 @@ end
 
 function TimeTracker:printSummary()
 	self.taBlocks[self.keyPrev] = self.taBlocks[self.keyPrev] + sys.toc() - self.dPrev
-	print(self.taBlocks)
+
+	-- to Print sorted:
+	local tkeys = {}
+	for k in pairs(self.taBlocks) do 
+		table.insert(tkeys, k) 
+	end
+
+-- sort the keys
+	 table.sort(tkeys)
+	-- use the keys to retrieve the values in the sorted order
+   for _, k in ipairs(tkeys) do 
+		 print(k, self.taBlocks[k]) 
+	 end
+
 end
