@@ -24,19 +24,28 @@ function TimeTracker:r(strName)
 end
 
 function TimeTracker:printSummary()
+	print("*** TimeTracker Summary (Start) ***")
+	-- 0) update the last block
 	self.taBlocks[self.keyPrev] = self.taBlocks[self.keyPrev] + sys.toc() - self.dPrev
 
-	-- to Print sorted:
-	local tkeys = {}
+	-- 1)  construct keys
+	local taKeys = {}
 	for k in pairs(self.taBlocks) do 
-		table.insert(tkeys, k) 
+		table.insert(taKeys, k) 
 	end
 
--- sort the keys
-	 table.sort(tkeys)
-	-- use the keys to retrieve the values in the sorted order
-   for _, k in ipairs(tkeys) do 
-		 print(k, self.taBlocks[k]) 
+	-- 2) sort the keys
+	 table.sort(taKeys)
+	 --
+	-- 3) print by sorted keys
+	 local dSum = 0
+   for _, k in ipairs(taKeys) do 
+		 local dValue = self.taBlocks[k]
+		 dSum = dSum + dValue
+		 print(k, dValue) 
 	 end
+
+	 print("Total time: " .. dSum)
+	print("*** TimeTracker Summary (End) ***")
 
 end
