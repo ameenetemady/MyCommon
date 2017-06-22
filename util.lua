@@ -201,6 +201,21 @@ do
     return strRes
   end  
 
+  function myUtil.getCsvStringFromTable(taX, separator)
+     local strRes = ""
+     separator = separator or ","
+    
+    for i, taRow in pairs(taX) do
+      for k, colValue in pairs(taRow) do
+         local strFormat = (type(colValue) == "number") and "%.4f" or "%s"
+         strRes = strRes .. string.format(strFormat, colValue) .. ","
+      end
+      strRes = strRes:sub(1, -2) .. "\n"
+    end
+
+    return strRes
+  end
+
   function myUtil.getDeepCopy(orig)
     local orig_type = type(orig)
     local copy
