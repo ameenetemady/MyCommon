@@ -31,10 +31,11 @@ do
 	end
 
   function dataLoad.getHeader(strFilename)
+print(strFilename)
     local taLoadParams = {header=false, separator="\t"}
     local f = csv.open(strFilename, taLoadParams)
     local fields = f:lines()()
-    local nGenes =  table.getn(fields)
+    local nGenes =  #fields
 
     local taGenes = {}
     for i=1, nGenes do

@@ -71,7 +71,7 @@ do
   -- Output: Returns a single tensor representing the input table
   function myUtil.getTensorFromTableOfTensors(taData)
     -- assuming all tensors are one dimentional and have same size
-    local nRows = table.getn(taData)
+    local nRows = #taData
     local nCols = taData[1]:size(1)
     local teDataResult = torch.Tensor(nRows, nCols):zero()
 
