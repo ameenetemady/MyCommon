@@ -52,6 +52,18 @@ do
 
     return taRes
   end
+  
+  function  dataLoad.getIdsFromRow(strFilename, nRowId)
+    local taLoadParams = {header=false, separator=","}
+    local f = csv.open(strFilename, taLoadParams)
+    local i = 1
+    for fields in f:lines() do
+      if i == nRowId then
+        return torch.LongTensor(fields):add(1)
+      end
+      i = i + 1
+    end
+  end
 
   function dataLoad.pri_loadTableOfTensorsFromTsv_Header(taParam)
     local strFilename = taParam.strFilename
